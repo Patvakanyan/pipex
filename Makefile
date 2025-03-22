@@ -1,33 +1,34 @@
 NAME		= pipex
 
-SRCS		= pipex.c
+SRCS		= pipex.c pipex_utils.c
 OBJS		= $(SRCS:.c=.o)
+
 LIBFT_DIR	= libft
 LIBFT		= $(LIBFT_DIR)/libft.a
 
 CC			= cc
-RM			= rm -f
-CFLAGS		= -Wall -Wextra -Werror -I. -fsanitize=address
+RM			= rm -rf
+CFLAGS		= -Wall -Wextra -Werror -I.
 
-all:		$(NAME)
+all: $(NAME)
 
-$(NAME):	$(OBJS) $(LIBFT)
-		$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
-		make -C $(LIBFT_DIR)
+	make -C $(LIBFT_DIR)
 
-%.o:	%.c
-		$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM)	$(OBJS)
+	$(RM) $(OBJS)
 	make clean -C $(LIBFT_DIR)
 
-fclean:	clean
+fclean: clean
 	$(RM) $(NAME)
 	make fclean -C $(LIBFT_DIR)
 
-re:	fclean all
+re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all  clean fclean re
